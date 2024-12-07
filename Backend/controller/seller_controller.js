@@ -8,12 +8,14 @@ const BookSchema = require("../model/BookSchema");
 //Post Method
 router.post("/addBook", async (req, res) => {
   const data = new BookSchema({
-    bookid: req.body.bookid,
     bookname: req.body.bookname,
     price: req.body.price,
     quantity: req.body.quantity,
+    rating: req.body.rating,
+    offer: req.body.offer,
     authore: req.body.authore,
-    bookimage: req.body.bookimage
+    bookimage: req.body.bookimage,
+    bookimageid: req.body.bookimageid
   });
 
   try {
@@ -64,7 +66,7 @@ router.delete("/deleteBook/:id", async (req, res) => {
   try {
     const id = req.params.id;
     const data = await BookSchema.findByIdAndDelete(id);
-    res.send(`Document with ${data.bookname} has been deleted..`);
+    res.json({ message: `Book with ${data.bookname} has been deleted.` });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }

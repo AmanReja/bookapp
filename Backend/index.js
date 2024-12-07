@@ -36,6 +36,9 @@ app.use("/seller", seller_controller);
 const user_controller = require("./controller/user_controller");
 app.use("/user", user_controller);
 
+const admin_controller = require("./controller/admin_controller");
+app.use("/admin", admin_controller);
+
 app.listen(3000, () => {
   console.log(`Server Started at ${3000}`);
 });

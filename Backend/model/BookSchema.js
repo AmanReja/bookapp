@@ -1,10 +1,6 @@
 const mongoose = require("mongoose");
 
 const dataSchema = new mongoose.Schema({
-  bookid: {
-    required: true,
-    type: Number
-  },
   bookname: {
     required: true,
     type: String
@@ -17,12 +13,24 @@ const dataSchema = new mongoose.Schema({
     required: true,
     type: Number
   },
+  rating: {
+    required: true,
+    type: Number
+  },
+  offer: {
+    required: true,
+    type: Number
+  },
   authore: {
     required: true,
     type: String
   },
   bookimage: {
-    required: false,
+    required: true,
+    type: String
+  },
+  bookimageid: {
+    require: true,
     type: String
   }
 });
