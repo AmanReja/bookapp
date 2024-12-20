@@ -26,13 +26,44 @@ router.post("/addBook", async (req, res) => {
   }
 });
 
-//Get all Method
-router.get("/getAllBooks", async (req, res) => {
+// Get all Method
+// router.get("/getAllBooks/:searcher?", async (req, res) => {
+//   try {
+//     let data;
+//     if (req.params.searcher) {
+//       const searcher = req.params.searcher.trim();
+//       const data = await BookSchema.find({
+//         bookname: { $regex: searcher, $options: "i" }
+//       });
+//     } else {
+//       const data = await BookSchema.find();
+//     }
+//     res.json(data);
+//   } catch (error) {
+//     res.status(500).json({ message: "Server error while fetching books." });
+//   }
+// });
+router.get("/getAllBooks/:searcher?", async (req, res) => {
   try {
-    const data = await BookSchema.find();
+    let data;
+
+    // If there is a searcher parameter, find books by bookname using regex
+    if (req.params.searcher) {
+      const searcher = req.params.searcher.trim();
+      data = await BookSchema.find({
+        $or: [
+          { bookname: { $regex: searcher, $options: "i" } },
+          { authore: { $regex: searcher, $options: "i" } }
+        ]
+      });
+    } else {
+      // Otherwise, return all books
+      data = await BookSchema.find();
+    }
+
     res.json(data);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: "Server error while fetching books." });
   }
 });
 
@@ -45,6 +76,18 @@ router.get("/getBook/:id", async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
+
+//Get by ID Method
+// router.get("/filterbookByname/:searcher", async (req, res) => {
+//   try {
+//     const data = await BookSchema.find({
+//       bookname: { $regex: req.params.searcher, $options: "i" }
+//     });
+//     res.json(data);
+//   } catch (error) {
+//     res.status(500).json({ message: error.message });
+//   }
+// });
 
 //Update by ID Method
 router.patch("/updateBook/:id", async (req, res) => {

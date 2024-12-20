@@ -4,6 +4,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const mongoString = process.env.DATABASE_URL;
+const port = process.env.PORT || 3000;
 
 mongoose.connect(mongoString);
 const database = mongoose.connection;
@@ -39,6 +40,6 @@ app.use("/user", user_controller);
 const admin_controller = require("./controller/admin_controller");
 app.use("/admin", admin_controller);
 
-app.listen(3000, () => {
-  console.log(`Server Started at ${3000}`);
+app.listen(port, () => {
+  console.log(`Server Started at ${port}`);
 });
