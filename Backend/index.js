@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const mongoString = process.env.DATABASE_URL;
 const port = process.env.PORT || 3000;
+const path = require("path");
 
 mongoose.connect(mongoString);
 const database = mongoose.connection;
@@ -26,6 +27,11 @@ app.use(
     origin: "*"
   })
 );
+app.use(express.static(path.join(__dirname, "build")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
 
 app.get("/", (req, res) => {
   res.send("This is my home page");
